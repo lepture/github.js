@@ -15,6 +15,8 @@ define(function(require, exports, module) {
 
         var url = this.base + '/users/' + this.user;
         url += '/repos?sort=updated&callback=define';
+        if (options.perpage) url += '&per_page=' + options.perpage;
+        if (options.page) url += '&page=' + options.page;
 
         require.async(url, function(response) {
             reply(response, options, 'repos', showRepo);
@@ -28,6 +30,9 @@ define(function(require, exports, module) {
 
         var url = this.base + '/repos/' + this.user + '/' + repo;
         url += '/commits?callback=define';
+        if (options.perpage) url += '&per_page=' + options.perpage;
+        if (options.page) url += '&page=' + options.page;
+
         require.async(url, function(response) {
             reply(response, options, 'commits', showCommit);
         });
@@ -41,7 +46,11 @@ define(function(require, exports, module) {
         var url = this.base + '/repos/' + this.user + '/' + repo;
         url += '/issues?callback=define';
         url += '&sort=' + (options.sort || 'updated');
-        url += '&state=' + (options.state || 'open');
+        if (options.state) url += '&state=' + options.state;
+        if (options.milestone) url += '&milestone=' + options.milestone;
+        if (options.labels) url += '&labels=' + options.labels;
+        if (options.perpage) url += '&per_page=' + options.perpage;
+        if (options.page) url += '&page=' + options.page;
         require.async(url, function(response) {
             reply(response, options, 'issues', showIssue);
         });
@@ -60,8 +69,7 @@ define(function(require, exports, module) {
             return;
         }
         var target = options.target || document.getElementById(target_id);
-        var limit = options.limit || 10;
-        var items = response.data.slice(0, limit);
+        var items = response.data;
         var html = '';
         for(var i = 0; i < items.length; i++) {
             html += func(items[i]);
