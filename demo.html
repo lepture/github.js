@@ -3,18 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <title>github.js DEMO</title>
+        <link rel="stylesheet" href="http://python-assets.b0.upaiyun.com/project/typo.css" />
+        <style type="text/css">
+            #repos span {
+                margin-left: 12px;
+            }
+        </style>
         <script type="text/javascript" src="http://seajs.org/dist/sea.js"></script>
     </head>
     <body>
-        <h1>github.js</h1>
-        <h2>Repos of Mine</h2>
-        <ul id="repos">
-            <li>Repos Loading</li>
-        </ul>
-        <h2>Commits of <a href="https://github.com/lepture/liquidluck">Felix Felicis</a></h2>
-        <ul id="commits">
-            <li>Commits Loading</li>
-        </ul>
+        <div class="container">
+            <h1>github.js</h1>
+            <h2>Repos of Mine</h2>
+            <ul id="repos">
+                <li>Repos Loading</li>
+            </ul>
+            <h2>Commits of <a href="https://github.com/lepture/liquidluck">Felix Felicis</a></h2>
+            <ul id="commits">
+                <li>Commits Loading</li>
+            </ul>
+        </div>
         <script type="text/javascript">
             seajs.use('./src/github', function(github) {
                 github('lepture').repos({limit: 5});
