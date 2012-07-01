@@ -14,7 +14,9 @@ define(function(require, exports, module) {
         options = options || {};
 
         var url = this.base + '/users/' + this.user;
-        url += '/repos?sort=updated&callback=define';
+        url += '/repos?callback=define';
+        url += '&type=' + (options.type || 'all');
+        url += '&sort=' + (options.sort || 'updated');
         if (options.perpage) url += '&per_page=' + options.perpage;
         if (options.page) url += '&page=' + options.page;
 
