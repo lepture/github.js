@@ -3,63 +3,39 @@ define(function(require, exports, module) {
         this.user = user;
         this.base = 'https://api.github.com';
     }
+
     GitHub.prototype.repos = function(options) {
-        var self = this;
         options = options || {};
-        var limit = options.limit || 10;
 
-        var target = options.target || document.getElementById('repos');
-        if (target && target.length) target = target[0];
-
-        var url = self.base + '/users/' + self.user;
+        var url = this.base + '/users/' + this.user;
         url += '/repos?sort=updated&callback=define';
-        require.async(url, function(repos) {
-            repos = repos.data.slice(0, limit);
-            if (options.callback) {
-                options.callback(repos);
-            } else {
-                showRepos(target, repos);
-            }
+
+        require.async(url, function(response) {
+            reply(response, options, 'repos', showRepo);
         });
     }
+
     GitHub.prototype.commits = function(options) {
-        var self = this;
         options = options || {};
         var repo = options.repo;
-        var limit = options.limit || 10;
 
-        var target = options.target || document.getElementById('commits');
-        if (target && target.length) target = target[0];
-        var url = self.base + '/repos/' + self.user + '/' + repo;
+        var url = this.base + '/repos/' + this.user + '/' + repo;
         url += '/commits?callback=define';
-        require.async(url, function(commits) {
-            commits = commits.data.slice(0, limit);
-            if (options.callback) {
-                options.callback(commits);
-            } else {
-                showCommits(target, commits);
-            }
+        require.async(url, function(response) {
+            reply(response, options, 'commits', showCommit);
         });
     }
+
     GitHub.prototype.issues = function(options) {
-        var self = this;
         options = options || {};
         var repo = options.repo;
-        var limit = options.limit || 10;
 
-        var target = options.target || document.getElementById('issues');
-        if (target && target.length) target = target[0];
-        var url = self.base + '/repos/' + self.user + '/' + repo;
+        var url = this.base + '/repos/' + this.user + '/' + repo;
         url += '/issues?callback=define';
         url += '&sort=' + (options.sort || 'updated');
         url += '&state=' + (options.state || 'open');
-        require.async(url, function(issues) {
-            issues = issues.data.slice(0, limit);
-            if (options.callback) {
-                options.callback(issues);
-            } else {
-                showIssues(target, issues);
-            }
+        require.async(url, function(response) {
+            reply(response, options, 'issues', showIssue);
         });
     }
 
@@ -69,6 +45,21 @@ define(function(require, exports, module) {
 
     // Helpers
     // ------------
+    function reply(response, options, target_id, func) {
+        if (options.callback) {
+            options.callback(response.data);
+            return;
+        }
+        var target = options.target || document.getElementById(target_id);
+        var limit = options.limit || 10;
+        var items = response.data.slice(0, limit);
+        var html = '';
+        for(var i = 0; i < items.length; i++) {
+            html += func(items[i]);
+        }
+        target.innerHTML = html;
+    }
+
     function prettyDate(time) {
         if (navigator.appName === 'Microsoft Internet Explorer') {
             // because IE date parsing isn't fun.
@@ -107,41 +98,30 @@ define(function(require, exports, module) {
             day_diff > 7 && Math.ceil(day_diff / 7) + say.weeks_ago;
     }
 
-    function showRepos(target, repos) {
-        var html = '';
-        for(var i = 0; i < repos.length; i++) {
-            var repo = repos[i];
-            html += '<li><a href="' + repo.html_url + '">' + repo.name + '</a>';
-            html += '<span>' + prettyDate(repo.updated_at) + '</span>';
-            html += '<p>' + repo.description + '</p></li>';
-        }
-        target.innerHTML = html;
+    function showRepo(repo) {
+        html = '<li><a href="' + repo.html_url + '">' + repo.name + '</a>';
+        html += '<span>' + prettyDate(repo.updated_at) + '</span>';
+        html += '<p>' + repo.description + '</p></li>';
+        return html;
     }
 
-    function showCommits(target, commits) {
-        var html = '';
-        for(var i = 0; i < commits.length; i++) {
-            var commit = commits[i].commit;
-            var url = commit.url.replace(/api\./g, '').
-                replace(/repos\//g, '').
-                replace(/git\/commits/g, 'commit');
-            html += '<li><a href="' + url + '">';
-            html += prettyDate(commit.committer.date) + '</a>';
-            html += '<p>' + commit.message + '</p></li>';
-        }
-        target.innerHTML = html;
+    function showCommit(commit) {
+        var commit = commit.commit;
+        var url = commit.url.replace(/api\./g, '').
+            replace(/repos\//g, '').
+            replace(/git\/commits/g, 'commit');
+        html = '<li><a href="' + url + '">';
+        html += prettyDate(commit.committer.date) + '</a>';
+        html += '<p>' + commit.message + '</p></li>';
+        return html;
     }
 
-    function showIssues(target, issues) {
-        var html = '';
-        for(var i = 0; i < issues.length; i++) {
-            var issue = issues[i];
-            html += '<li><a href="' + issue.html_url + '" title="';
-            html += issue.body + '">';
-            html += prettyDate(issue.updated_at) + '</a>';
-            html += '<p>' + issue.title + '</p></li>';
-        }
-        target.innerHTML = html;
+    function showIssue(issue) {
+        html = '<li><a href="' + issue.html_url + '" title="';
+        html += issue.body + '">';
+        html += prettyDate(issue.updated_at) + '</a>';
+        html += '<p>' + issue.title + '</p></li>';
+        return html;
     }
 
     module.exports = github;
