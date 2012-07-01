@@ -28,10 +28,14 @@
             </ul>
         </div>
         <script type="text/javascript">
-            seajs.use('./src/github', function(github) {
-                github('lepture/liquidluck').repos({perpage: 5}).
-                    commits({perpage: 5});
-                github('seajs').issues({repo: 'seajs', perpage: 5});
+            seajs.use(['./src/github', './src/render'], function(github, render) {
+                github('lepture').repos({perpage: 5, callback: render.repos});
+                github('lepture/liquidluck').commits({
+                    perpage: 5, callback: render.commits
+                });
+                github('seajs').issues({
+                    repo: 'seajs', perpage: 5, callback: render.issues
+                });
             });
         </script>
     </body>
