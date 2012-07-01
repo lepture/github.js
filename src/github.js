@@ -23,9 +23,11 @@ define(function(require, exports, module) {
 
         var url = API_BASE + '/users/' + this.user;
         url += '/repos?' + CALLBACK;
-        url = appendQuery(url, options, 'type', 'all');
-        url = appendQuery(url, options, 'sort', 'updated');
-        url = appendPagination(url, options);
+        var qs = toQuery(
+            options,
+            ['type:all', 'sort:updated', 'page', 'per_page:10']
+        )
+        url += '&' + qs;
 
         require.async(url, function(response) {
             options.callback(response);
@@ -39,7 +41,7 @@ define(function(require, exports, module) {
 
         var url = API_BASE + '/repos/' + this.user + '/' + repo;
         url += '/commits?' + CALLBACK;
-        url = appendPagination(url, options);
+        url += '&' + toQuery(options, ['page', 'per_page:10']);
 
         require.async(url, function(response) {
             options.callback(response);
@@ -53,11 +55,14 @@ define(function(require, exports, module) {
 
         var url = API_BASE + '/repos/' + this.user + '/' + repo;
         url += '/issues?' + CALLBACK;
-        url = appendQuery(url, options, 'sort', 'updated');
-        url = appendQuery(url, options, 'state');
-        url = appendQuery(url, options, 'milestone');
-        url = appendQuery(url, options, 'labels');
-        url = appendPagination(url, options);
+        var qs = toQuery(
+            options,
+            [
+                'sort:updated', 'state', 'milestone', 'labels',
+                'page', 'per_page:10'
+            ]
+        );
+        url += '&' + qs;
 
         require.async(url, function(response) {
             options.callback(response);
@@ -67,16 +72,20 @@ define(function(require, exports, module) {
 
     // Helpers
     // ----------------
-    function appendQuery(url, options, key, defaults) {
-        var value = options[key] || defaults;
-        if (value) url += '&' + key + '=' + value;
-        return url;
-    }
-    function appendPagination(url, options) {
-        url = appendQuery(url, options, 'page');
-        var perpage = options.perpage || options.per_page;
-        if (perpage) url += '&per_page=' + perpage;
-        return url;
+    function toQuery(options, keys) {
+        // toQuery(options, ['state', 'milestone']);
+        var query = [];
+        for (var i = 0; i < keys.length; i++) {
+            var bits = keys[i].split(':');
+            var key = bits[0];
+            (function() {
+                var value;
+                if (bits.length > 1) value = bits[1];
+                value = options[key] || value;
+                if (value) query.push(key + '=' + value);
+            })();
+        }
+        return query.join('&');
     }
 
     module.exports = github;
