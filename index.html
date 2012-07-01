@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>github.js</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+        <meta name="author" content="lepture" />
+        <link rel="alternate" type="application/rss+xml" href="http://feeds.lepture.com/lepture" title="Website Feed" />
+        <link rel="stylesheet" href="http://python-assets.b0.upaiyun.com/project/typo.css" />
+        <link rel="stylesheet" href="http://python-assets.b0.upaiyun.com/project/pygments.css" />
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-21475122-1']);
+            _gaq.push(['_trackPageview']);
+            _gaq.push(['_trackPageLoadTime']);
+            _gaq.push(['_setCustomVar', 1, 'Project', 'github.js', 2]);
+            (function() {
+             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+             })();
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>github.js</h1>
+
+<p>GitHub API in <a href="http://seajs.org">seajs</a>.</p>
+
+<hr/>
+
+<h2>API</h2>
+
+<p>init with seajs:</p>
+<div class="highlight"><pre><span class="nx">seajs</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;./src/github&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">github</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* write code here */</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>show repos:</p>
+<div class="highlight"><pre><span class="nx">github</span><span class="p">(</span><span class="s1">&#39;your_name&#39;</span><span class="p">).</span><span class="nx">repos</span><span class="p">({</span>
+    <span class="nx">limit</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1">// default is 5</span>
+    <span class="nx">target</span><span class="o">:</span> <span class="nx">el</span><span class="p">,</span>  <span class="c1">// default is &lt;ul id=&quot;repos&quot;&gt;&lt;/ul&gt;</span>
+    <span class="nx">callback</span><span class="o">:</span> <span class="kc">null</span> <span class="c1">// default is undefined</span>
+<span class="p">})</span>
+</pre></div>
+
+<p>show commits:</p>
+<div class="highlight"><pre><span class="nx">github</span><span class="p">(</span><span class="s1">&#39;your_name&#39;</span><span class="p">).</span><span class="nx">commits</span><span class="p">({</span>
+    <span class="nx">repo</span><span class="o">:</span> <span class="s1">&#39;your_repo_name&#39;</span><span class="p">,</span>  <span class="c1">// required</span>
+    <span class="nx">limit</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1">// default is 5</span>
+    <span class="nx">target</span><span class="o">:</span> <span class="nx">el</span><span class="p">,</span>  <span class="c1">// default is &lt;ul id=&quot;commits&quot;&gt;&lt;/ul&gt;</span>
+    <span class="nx">callback</span><span class="o">:</span> <span class="kc">null</span> <span class="c1">// default is undefined</span>
+<span class="p">});</span>
+</pre></div>
+
+        </div>
+        <hr class="end" />
+        <div id="footer">
+            <a href="https://github.com/lepture">GitHub</a>
+            <a href="http://lepture.com">Website</a>
+            <a href="https://twitter.com/lepture">Twitter</a>
+        </div>
+        <a id="github" href="https://github.com/lepture/github.js" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0; z-index:999" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    </body>
+</html>
+
