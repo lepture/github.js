@@ -35,6 +35,18 @@ define(function(require, exports, module) {
         return this;
     }
 
+    github.prototype.tags = function(options) {
+        options = options || {};
+        var repo = options.repo || this.repo;
+
+        var url = API_BASE + '/repos/' + this.user + '/' + repo;
+        url += '/tags?' + CALLBACK;
+        require.async(url, function(response) {
+            options.callback(response);
+        });
+        return this;
+    }
+
     github.prototype.commits = function(options) {
         options = options || {};
         var repo = options.repo || this.repo;
