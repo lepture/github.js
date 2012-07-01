@@ -1,0 +1,23 @@
+{
+    "name": "github",
+    "version": "0.8.0",
+    "description": "github api in seajs",
+    "homepage": "https://lepture.github.com/github.js/",
+    "author": "Hsiaoming Yang <lepture@me.com>",
+    "keywords": [
+        "github",
+        "git",
+        "seajs"
+    ],
+    "main": "./src/github.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lepture/github.js.git"
+    },
+    "bugs": {
+        "url": "https://github.com/lepture/github.js/issues"
+    },
+    "licenses": [{
+        "type": "BSD"
+    }]
+}

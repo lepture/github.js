@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>github.js DEMO</title>
+        <script type="text/javascript" src="http://seajs.org/dist/sea.js"></script>
+    </head>
+    <body>
+        <h1>github.js</h1>
+        <h2>Repos of Mine</h2>
+        <ul id="repos">
+            <li>Repos Loading</li>
+        </ul>
+        <h2>Commits of <a href="https://github.com/lepture/liquidluck">Felix Felicis</a></h2>
+        <ul id="commits">
+            <li>Commits Loading</li>
+        </ul>
+        <script type="text/javascript">
+            seajs.use('./src/github', function(github) {
+                github('lepture').repos({limit: 5});
+                github('lepture').commits({repo: 'liquidluck', limit: 5});
+            });
+        </script>
+    </body>
+</html>
