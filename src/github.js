@@ -1,6 +1,12 @@
 define(function(require, exports, module) {
-    function GitHub(user) {
-        this.user = user;
+    function GitHub(name) {
+        var bits = name.split('/');
+        this.user = bits[0];
+        if (bits.length == 2) {
+            this.repo = bits[1];
+        } else {
+            this.repo = null;
+        }
         this.base = 'https://api.github.com';
     }
 
@@ -17,7 +23,7 @@ define(function(require, exports, module) {
 
     GitHub.prototype.commits = function(options) {
         options = options || {};
-        var repo = options.repo;
+        var repo = options.repo || this.repo;
 
         var url = this.base + '/repos/' + this.user + '/' + repo;
         url += '/commits?callback=define';
@@ -28,7 +34,7 @@ define(function(require, exports, module) {
 
     GitHub.prototype.issues = function(options) {
         options = options || {};
-        var repo = options.repo;
+        var repo = options.repo || this.repo;
 
         var url = this.base + '/repos/' + this.user + '/' + repo;
         url += '/issues?callback=define';
