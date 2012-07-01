@@ -29,8 +29,8 @@
         </div>
         <script type="text/javascript">
             seajs.use('./src/github', function(github) {
-                github('lepture').repos({limit: 5});
-                github('lepture').commits({repo: 'liquidluck', limit: 5});
+                github('lepture/liquidluck').repos({limit: 5}).
+                    commits({limit: 5});
                 github('seajs').issues({repo: 'seajs', limit: 5});
             });
         </script>

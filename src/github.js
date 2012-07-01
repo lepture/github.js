@@ -19,6 +19,7 @@ define(function(require, exports, module) {
         require.async(url, function(response) {
             reply(response, options, 'repos', showRepo);
         });
+        return this;
     }
 
     GitHub.prototype.commits = function(options) {
@@ -30,6 +31,7 @@ define(function(require, exports, module) {
         require.async(url, function(response) {
             reply(response, options, 'commits', showCommit);
         });
+        return this;
     }
 
     GitHub.prototype.issues = function(options) {
@@ -43,6 +45,7 @@ define(function(require, exports, module) {
         require.async(url, function(response) {
             reply(response, options, 'issues', showIssue);
         });
+        return this;
     }
 
     var github = function(user) {
