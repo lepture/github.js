@@ -41,6 +41,27 @@ define(function(require, exports, module) {
             }
         });
     }
+    GitHub.prototype.issues = function(options) {
+        var self = this;
+        options = options || {};
+        var repo = options.repo;
+        var limit = options.limit || 10;
+
+        var target = options.target || document.getElementById('issues');
+        if (target && target.length) target = target[0];
+        var url = self.base + '/repos/' + self.user + '/' + repo;
+        url += '/issues?callback=define';
+        url += '&sort=' + (options.sort || 'updated');
+        url += '&state=' + (options.state || 'open');
+        require.async(url, function(issues) {
+            issues = issues.data.slice(0, limit);
+            if (options.callback) {
+                options.callback(issues);
+            } else {
+                showIssues(target, issues);
+            }
+        });
+    }
 
     var github = function(user) {
         return new GitHub(user);
@@ -107,6 +128,18 @@ define(function(require, exports, module) {
             html += '<li><a href="' + url + '">';
             html += prettyDate(commit.committer.date) + '</a>';
             html += '<p>' + commit.message + '</p></li>';
+        }
+        target.innerHTML = html;
+    }
+
+    function showIssues(target, issues) {
+        var html = '';
+        for(var i = 0; i < issues.length; i++) {
+            var issue = issues[i];
+            html += '<li><a href="' + issue.html_url + '" title="';
+            html += issue.body + '">';
+            html += prettyDate(issue.updated_at) + '</a>';
+            html += '<p>' + issue.title + '</p></li>';
         }
         target.innerHTML = html;
     }

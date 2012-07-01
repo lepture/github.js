@@ -22,11 +22,16 @@
             <ul id="commits">
                 <li>Commits Loading</li>
             </ul>
+            <h2>Issues of Seajs</h2>
+            <ul id="issues">
+                <li>Issues Loading</li>
+            </ul>
         </div>
         <script type="text/javascript">
             seajs.use('./src/github', function(github) {
                 github('lepture').repos({limit: 5});
                 github('lepture').commits({repo: 'liquidluck', limit: 5});
+                github('seajs').issues({repo: 'seajs', limit: 5});
             });
         </script>
     </body>
