@@ -36,3 +36,14 @@ github('your_name').commits({
     callback: null // default is undefined
 });
 ```
+
+show issues:
+
+```javascript
+github('your_name').issues({
+    repo: 'your_repo_name',  // required
+    limit: 5,  // default is 5
+    target: el,  // default is <ul id="issues"></ul>
+    callback: null // default is undefined
+});
+```
