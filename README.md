@@ -47,3 +47,16 @@ github('your_name').issues({
     callback: null // default is undefined
 });
 ```
+
+## Run on NodeJS
+
+```javascript
+require('seajs')  // not ready yet
+
+var github = require('./src/github')
+github('lepture').repos({
+    callback: function(response) {
+        console.log(response)
+    }
+})
+```
