@@ -2,8 +2,6 @@
 // ==============
 
 define(function(require, exports, module) {
-  var API_BASE = 'https://api.github.com';
-  var CALLBACK = 'callback=define';
 
   function github(name) {
     if (!(this instanceof github)) {
